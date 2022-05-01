@@ -3,24 +3,26 @@ namespace cs360{
         private static int MOVEMENT_TIME_CONSTANT = 12;
         private static double TRANSFER_TIME_BASE = 1.2;
         private static int ROTATION_DELAY = 5;
-        private int rotationCounter = 0;
+        private int totalRotationCounter = 0;
         private int totalInstructionsProcessed = 0;
+        private int individualRotationForInstruction = 0;
+        private double individualSeekTime = 0;
 
         private double totalSeekTime = 0;
 
-        public int SearchTime
+        public int TotalSearchTime
         {
-            get { return rotationCounter * ROTATION_DELAY; }
+            get { return totalRotationCounter * ROTATION_DELAY; }
         }
 
-        public double TransferTime
+        public double TotalTransferTime
         {
             get { return totalInstructionsProcessed * TRANSFER_TIME_BASE; }
         }
 
         public double TotalAccessTime
         {
-            get { return TransferTime+SearchTime+totalSeekTime; }
+            get { return TotalTransferTime+TotalSearchTime+totalSeekTime; }
         }
 
         public double AverageAccessTime
@@ -34,35 +36,36 @@ namespace cs360{
 
         double standarddeviationvariable = 0;
         double m = 0;
-        double AccessTime = 0;
-        bool rotation_made= true;
-        // If I make a boolean and use it after the loop, then it won't have the data for each instruction
-
-        public double calculateSeekTime(Instruction previousInstruction,Instruction currentInstruction){
+    
+        public void calculateSeekTime(Instruction previousInstruction,Instruction currentInstruction){
             totalInstructionsProcessed++;
             double seekTimeTmp = 0;
+            individualRotationForInstruction = 0;
+            individualSeekTime = 0;
             
             if(previousInstruction.TrackRequest > currentInstruction.TrackRequest){
-                rotationCounter++;
+                totalRotationCounter++;
+                individualRotationForInstruction++;
                 seekTimeTmp = (256-previousInstruction.TrackRequest)+currentInstruction.TrackRequest;
-                AccessTime= TRANSFER_TIME_BASE+seekTime+5;
             }else{
                 seekTimeTmp = Math.Abs(previousInstruction.TrackRequest-currentInstruction.TrackRequest);
             }
             double seekTime = MOVEMENT_TIME_CONSTANT + (0.1 * seekTimeTmp);
 
-            AccessTime= TRANSFER_TIME_BASE+seekTime;
-
             standarddeviationvariable = Math.Pow(AccessTime - TotalAccessTime, 2);    
-            // m = standarddeviationvariable+m; 
 
+            individualSeekTime=seekTime;
             totalSeekTime= totalSeekTime+seekTime;
-            AccessTime = AccessTime+TransferTime+SearchTime+seekTime;
-
-            return seekTime;
+            //AccessTime = AccessTime+TotalTransferTime+TotalSearchTime+seekTime;
 
         }
 
+        public double AccessTime{
+            get { return (individualRotationForInstruction*ROTATION_DELAY)+TRANSFER_TIME_BASE+individualSeekTime;}
+        }
+        public double SeekTime{
+            get {return individualSeekTime; }
+        }
         public double Vairance
         {
             get { return m/TotalAccessTime; }
@@ -76,7 +79,7 @@ namespace cs360{
             return "\n:::Disk Stats::: " + 
                    //"\nDisk Search Time: " + this.SearchTime + 
                    //"\nTotal Instructions: " + this.totalInstructionsProcessed +
-                  // "\nTotal seek time: " + this.totalSeekTime +
+                   //"\nTotal seek time: " + this.totalSeekTime +
                    //"\nTotal Transfer time: " + this.TransferTime +
                    "\nTotal Access time: " + this.TotalAccessTime +
                    "\nAverage Access time for FCFS: " + AverageAccessTime + " ms" +
