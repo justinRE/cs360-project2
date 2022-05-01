@@ -1,7 +1,7 @@
 namespace cs360
 {
     public class Instruction{
-        private static int MOVEMENT_TIME_CONSTANT = 12;
+
         private int _arrivalTime = 0;
         private int _trackRequest = 0;
         private int _sectorRequest = 0;
@@ -25,20 +25,13 @@ namespace cs360
         public double SeekTime
         {
             get { return _seekTime; }
+            set { _seekTime = value; }
         }
-
-        public double calculateSeekTime(int originalHeadLocation){
-            double tmp = 0;
-            if(originalHeadLocation > _trackRequest){
-                tmp = (256-originalHeadLocation)+_trackRequest;
-            }else{
-                tmp = Math.Abs(originalHeadLocation-_trackRequest);
-            }
-
-            _seekTime = MOVEMENT_TIME_CONSTANT + (0.1 * tmp);
-            return _seekTime;
+         public Instruction (){
+            this._arrivalTime = 0;
+            this._trackRequest = 0;
+            this._sectorRequest = 0;
         }
-
         public Instruction (int arrivalTime, int trackRequest, int sectorRequest){
             this._arrivalTime = arrivalTime;
             this._trackRequest = trackRequest;

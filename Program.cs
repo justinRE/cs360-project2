@@ -10,14 +10,17 @@ namespace cs360
             Project2 project2 = new Project2();
             IList<Instruction> instructions = project2.loadData();
 
+            Disk disk = new Disk();
+
             for (int i=0;i<instructions.Count; i++){
                 Instruction currentInstruction = instructions[i];
                 
+                
                 //check for outofbounds
                 if (i <=0){
-                    currentInstruction.calculateSeekTime(0);
+                    disk.calculateSeekTime(new Instruction(), currentInstruction);
                 }else{
-                    currentInstruction.calculateSeekTime(instructions[i-1].TrackRequest);
+                    disk.calculateSeekTime(instructions[i-1],currentInstruction);
                 }
             }
 
