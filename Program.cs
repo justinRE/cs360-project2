@@ -15,19 +15,18 @@ namespace cs360
             for (int i=0;i<instructions.Count; i++){
                 Instruction currentInstruction = instructions[i];
                 
-                
+                double seekTime = 0;
                 //check for outofbounds
                 if (i <=0){
-                    disk.calculateSeekTime(new Instruction(), currentInstruction);
+                    seekTime = disk.calculateSeekTime(new Instruction(), currentInstruction);
+                    Console.Out.WriteLine(currentInstruction);                  
                 }else{
-                    disk.calculateSeekTime(instructions[i-1],currentInstruction);
+                    seekTime = disk.calculateSeekTime(instructions[i-1],currentInstruction);
+                    Console.Out.WriteLine(currentInstruction);
                 }
+                Console.Out.WriteLine(" - Seek Time: " + seekTime);
             }
-
-            //write result
-            foreach (Instruction instruction in instructions){
-                Console.Out.WriteLine(instruction);
-            }       
+             Console.Out.WriteLine(disk.getStats());
         }
 
         private IList<Instruction> loadData(){

@@ -5,7 +5,6 @@ namespace cs360
         private int _arrivalTime = 0;
         private int _trackRequest = 0;
         private int _sectorRequest = 0;
-        private double _seekTime = 0;
 
         public int ArrivalTime
         {
@@ -22,11 +21,6 @@ namespace cs360
             get { return _sectorRequest; }
             set { _sectorRequest = value; }
         }
-        public double SeekTime
-        {
-            get { return _seekTime; }
-            set { _seekTime = value; }
-        }
          public Instruction (){
             this._arrivalTime = 0;
             this._trackRequest = 0;
@@ -38,7 +32,6 @@ namespace cs360
             this._sectorRequest = sectorRequest;
         }
 
-    
 
         public override string ToString()
         {
@@ -46,7 +39,6 @@ namespace cs360
                 " _arrivalTime: " + _arrivalTime +
                 ", _trackRequest: " + _trackRequest + 
                 ", _sectorRequest: " + _sectorRequest + 
-                " _seekTime: " + _seekTime +
                 "]";
         }
 
