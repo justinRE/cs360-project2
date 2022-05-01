@@ -44,9 +44,10 @@ namespace cs360
         public override string ToString()
         {
             return "ReadDiskRequest[" + 
-                "_arrivalTime: " + _arrivalTime+
-                ",_trackRequest: " + _trackRequest+ 
-                ",_sectorRequest: " + _sectorRequest+
+                " _arrivalTime: " + _arrivalTime +
+                ", _trackRequest: " + _trackRequest + 
+                ", _sectorRequest: " + _sectorRequest + 
+                " _seekTime: " + _seekTime +
                 "]";
         }
 
