@@ -10,9 +10,21 @@ namespace cs360
             Project2 project2 = new Project2();
             IList<Instruction> instructions = project2.loadData();
 
+            for (int i=0;i<instructions.Count; i++){
+                Instruction currentInstruction = instructions[i];
+                
+                //check for outofbounds
+                if (i <=0){
+                    currentInstruction.calculateSeekTime(0);
+                }else{
+                    currentInstruction.calculateSeekTime(instructions[i-1].TrackRequest);
+                }
+            }
+
+            //write result
             foreach (Instruction instruction in instructions){
-                 System.Console.WriteLine(instruction);
-            }           
+                Console.Out.WriteLine(instruction);
+            }       
         }
 
         private IList<Instruction> loadData(){
