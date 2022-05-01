@@ -41,7 +41,11 @@ public class Instruction{
 
     public override string ToString()
     {
-        return "ReadDiskRequest[_arrivalTime: " + _arrivalTime+ ",_trackRequest: " + _trackRequest+ ",_sectorRequest: " + _sectorRequest+"]";
+        return "ReadDiskRequest[" + 
+            "_arrivalTime: " + _arrivalTime+
+            ",_trackRequest: " + _trackRequest+ 
+            ",_sectorRequest: " + _sectorRequest+
+            "]";
     }
 
 }
