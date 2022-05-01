@@ -35,6 +35,8 @@ namespace cs360{
         double standarddeviationvariable = 0;
         double m = 0;
         double AccessTime = 0;
+        bool rotation_made= true;
+        // If I make a boolean and use it after the loop, then it won't have the data for each instruction
 
         public double calculateSeekTime(Instruction previousInstruction,Instruction currentInstruction){
             totalInstructionsProcessed++;
@@ -43,16 +45,19 @@ namespace cs360{
             if(previousInstruction.TrackRequest > currentInstruction.TrackRequest){
                 rotationCounter++;
                 seekTimeTmp = (256-previousInstruction.TrackRequest)+currentInstruction.TrackRequest;
+                AccessTime= TRANSFER_TIME_BASE+seekTime+5;
             }else{
                 seekTimeTmp = Math.Abs(previousInstruction.TrackRequest-currentInstruction.TrackRequest);
             }
             double seekTime = MOVEMENT_TIME_CONSTANT + (0.1 * seekTimeTmp);
 
-            standarddeviationvariable = Math.Pow(seekTime - TotalAccessTime, 2);    
-            m = standarddeviationvariable+m; 
+            AccessTime= TRANSFER_TIME_BASE+seekTime;
+
+            standarddeviationvariable = Math.Pow(AccessTime - TotalAccessTime, 2);    
+            // m = standarddeviationvariable+m; 
 
             totalSeekTime= totalSeekTime+seekTime;
-            AccessTime += AccessTime+TransferTime+SearchTime+seekTime;
+            AccessTime = AccessTime+TransferTime+SearchTime+seekTime;
 
             return seekTime;
 
@@ -75,7 +80,7 @@ namespace cs360{
                    //"\nTotal Transfer time: " + this.TransferTime +
                    "\nTotal Access time: " + this.TotalAccessTime +
                    "\nAverage Access time for FCFS: " + AverageAccessTime + " ms" +
-                   //"\nStandard deviation for FCFS: " + StandardDeviation;
+                   "\nStandard deviation for FCFS: " + StandardDeviation +
                     "\nAccess Time: " + AccessTime;
 
 // vairance, standard deviation
