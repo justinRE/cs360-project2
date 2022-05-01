@@ -1,2 +1,2 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, project 2!");
+Console.WriteLine("Hello, justin!");
