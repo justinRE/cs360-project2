@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿// Hello World! program
 namespace cs360
 {
