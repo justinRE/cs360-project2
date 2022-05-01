@@ -18,10 +18,23 @@ namespace cs360{
             get { return totalInstructionsProcessed * TRANSFER_TIME_BASE; }
         }
 
-        public double AccessTime
+        public double TotalAccessTime
         {
             get { return TransferTime+SearchTime+totalSeekTime; }
         }
+
+        public double AverageAccessTime
+        {
+            get { 
+                if (totalInstructionsProcessed <= 0) 
+                    return 0;
+                else 
+                    return TotalAccessTime/totalInstructionsProcessed; }
+        }
+
+        double standarddeviationvariable = 0;
+        double m = 0;
+        double AccessTime = 0;
 
         public double calculateSeekTime(Instruction previousInstruction,Instruction currentInstruction){
             totalInstructionsProcessed++;
@@ -35,20 +48,37 @@ namespace cs360{
             }
             double seekTime = MOVEMENT_TIME_CONSTANT + (0.1 * seekTimeTmp);
 
+            standarddeviationvariable = Math.Pow(seekTime - TotalAccessTime, 2);    
+            m = standarddeviationvariable+m; 
+
             totalSeekTime= totalSeekTime+seekTime;
+            AccessTime += AccessTime+TransferTime+SearchTime+seekTime;
 
             return seekTime;
 
         }
 
+        public double Vairance
+        {
+            get { return m/TotalAccessTime; }
+        }
+         public double StandardDeviation
+        {
+            get { return m/TotalAccessTime-1; }
+        }
+
         public String getStats(){
             return "\n:::Disk Stats::: " + 
-                   "\nDisk Search Time: " + this.SearchTime + 
-                   "\nTotal Instructions: " + this.totalInstructionsProcessed +
-                   "\nTotal seek time: " + this.totalSeekTime +
-                   "\nTotal Transfer time: " + this.TransferTime +
-                   "\nAccess time: " + this.AccessTime;
+                   //"\nDisk Search Time: " + this.SearchTime + 
+                   //"\nTotal Instructions: " + this.totalInstructionsProcessed +
+                  // "\nTotal seek time: " + this.totalSeekTime +
+                   //"\nTotal Transfer time: " + this.TransferTime +
+                   "\nTotal Access time: " + this.TotalAccessTime +
+                   "\nAverage Access time for FCFS: " + AverageAccessTime + " ms" +
+                   //"\nStandard deviation for FCFS: " + StandardDeviation;
+                    "\nAccess Time: " + AccessTime;
 
+// vairance, standard deviation
 
                    
         }
