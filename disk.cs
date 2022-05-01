@@ -1,14 +1,15 @@
 namespace cs360{
     public class Disk{
-        private static int MOVEMENT_TIME_CONSTANT = 12;
-        private static double TRANSFER_TIME_BASE = 1.2;
-        private static int ROTATION_DELAY = 5;
+        private const int MOVEMENT_TIME_CONSTANT = 12;
+        private const double TRANSFER_TIME_BASE = 1.2;
+        private const int ROTATION_DELAY = 5;
+       
         private int totalRotationCounter = 0;
         private int totalInstructionsProcessed = 0;
+        private double totalSeekTime = 0;
+        
         private int individualRotationForInstruction = 0;
         private double individualSeekTime = 0;
-
-        private double totalSeekTime = 0;
 
         public int TotalSearchTime
         {
@@ -66,7 +67,7 @@ namespace cs360{
         public double SeekTime{
             get {return individualSeekTime; }
         }
-        public double Vairance
+        public double Variance
         {
             get { return m/TotalAccessTime; }
         }

@@ -6,6 +6,8 @@ namespace cs360
             System.Console.WriteLine("Starting Assignment 2");
             
             Project2 project2 = new Project2();
+
+            //this is where I need to handle other comparators for different sort order
             IList<Instruction> instructions = project2.loadData();
 
             Disk disk = new Disk();
