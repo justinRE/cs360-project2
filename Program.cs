@@ -9,6 +9,13 @@ namespace cs360
 
             //this is where I need to handle other comparators for different sort order
             IList<Instruction> instructions = project2.loadData();
+            project2.performFCFS(instructions);
+
+           
+            
+        }
+
+        private void performFCFS( IList<Instruction> instructions){
             IList<Double> accessTimes = new List<Double>();
 
             Disk disk = new Disk();
@@ -22,16 +29,16 @@ namespace cs360
                 }else{
                     disk.calculateSeekTime(instructions[i-1],currentInstruction);
                 }
-                Console.Out.WriteLine(instructions[i]); 
+                //Console.Out.WriteLine(instructions[i]); 
                 accessTimes.Add(disk.AccessTime); 
             }
+            Console.Out.WriteLine("FCFS Stats");
             Console.Out.WriteLine(disk.getStats());
 
             double average = disk.AverageAccessTime;
             double sum = accessTimes.Sum(d => Math.Pow(d - average, 2));
             Console.Out.WriteLine("Access Time Standard Deviation: " + Math.Sqrt((sum) / accessTimes.Count()));
             Console.Out.WriteLine("Access Time Variance: " + sum / (accessTimes.Count()-1));
-            
         }
 
         private IList<Instruction> loadData(){

@@ -62,8 +62,7 @@ namespace cs360{
         }
 
         public String getStats(){
-            return "\n:::Disk Stats::: " + 
-                   "\nTotal Access time: " + this.TotalAccessTime +
+            return "Total Access time: " + this.TotalAccessTime +
                    "\nAverage Access time for FCFS: " + AverageAccessTime + " ms";
         }
     }
