@@ -1,4 +1,6 @@
-public class Instruction{
+namespace cs360
+{
+    public class Instruction{
     private static int MOVEMENT_TIME_CONSTANT = 12;
     private int _arrivalTime = 0;
     private int _trackRequest = 0;
@@ -48,4 +50,5 @@ public class Instruction{
             "]";
     }
 
+}
 }
