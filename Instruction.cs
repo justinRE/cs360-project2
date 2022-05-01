@@ -28,8 +28,14 @@ namespace cs360
         }
 
         public double calculateSeekTime(int originalHeadLocation){
-            //calculate _seekTime
-            _seekTime = MOVEMENT_TIME_CONSTANT + (0.1 * Math.Abs(originalHeadLocation-_trackRequest));
+            double tmp = 0;
+            if(originalHeadLocation > _trackRequest){
+                tmp = (256-originalHeadLocation)+_trackRequest;
+            }else{
+                tmp = Math.Abs(originalHeadLocation-_trackRequest);
+            }
+
+            _seekTime = MOVEMENT_TIME_CONSTANT + (0.1 * tmp);
             return _seekTime;
         }
 
