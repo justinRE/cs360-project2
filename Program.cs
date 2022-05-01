@@ -10,8 +10,8 @@ namespace cs360
             Project2 project2 = new Project2();
             IList<Instruction> instructions = project2.loadData();
 
-            foreach (Instruction item in instructions){
-                 System.Console.WriteLine(item);
+            foreach (Instruction instruction in instructions){
+                 System.Console.WriteLine(instruction);
             }           
         }
 
