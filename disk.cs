@@ -35,9 +35,6 @@ namespace cs360{
                     return TotalAccessTime/totalInstructionsProcessed; }
         }
 
-        double standarddeviationvariable = 0;
-        double m = 0;
-    
         public void calculateSeekTime(Instruction previousInstruction,Instruction currentInstruction){
             totalInstructionsProcessed++;
             double seekTimeTmp = 0;
@@ -53,12 +50,8 @@ namespace cs360{
             }
             double seekTime = MOVEMENT_TIME_CONSTANT + (0.1 * seekTimeTmp);
 
-            standarddeviationvariable = Math.Pow(AccessTime - TotalAccessTime, 2);    
-
             individualSeekTime=seekTime;
             totalSeekTime= totalSeekTime+seekTime;
-            //AccessTime = AccessTime+TotalTransferTime+TotalSearchTime+seekTime;
-
         }
 
         public double AccessTime{
@@ -67,29 +60,11 @@ namespace cs360{
         public double SeekTime{
             get {return individualSeekTime; }
         }
-        public double Variance
-        {
-            get { return m/TotalAccessTime; }
-        }
-         public double StandardDeviation
-        {
-            get { return m/TotalAccessTime-1; }
-        }
 
         public String getStats(){
             return "\n:::Disk Stats::: " + 
-                   //"\nDisk Search Time: " + this.SearchTime + 
-                   //"\nTotal Instructions: " + this.totalInstructionsProcessed +
-                   //"\nTotal seek time: " + this.totalSeekTime +
-                   //"\nTotal Transfer time: " + this.TransferTime +
                    "\nTotal Access time: " + this.TotalAccessTime +
-                   "\nAverage Access time for FCFS: " + AverageAccessTime + " ms" +
-                   "\nStandard deviation for FCFS: " + StandardDeviation +
-                    "\nAccess Time: " + AccessTime;
-
-// vairance, standard deviation
-
-                   
+                   "\nAverage Access time for FCFS: " + AverageAccessTime + " ms";
         }
     }
 }
