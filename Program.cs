@@ -1,8 +1,6 @@
 namespace cs360
 {
     class Project2 {         
-        private int _headLocation = 0;
-
         static void Main(string[] args)
         {
             System.Console.WriteLine("Starting Assignment 2");
