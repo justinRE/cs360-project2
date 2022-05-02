@@ -15,7 +15,49 @@ namespace cs360
             project2.performSearch(instructions, new ArrivalTimeComparer());
             Console.Out.WriteLine("SSTF Stats");
             project2.performSearch(instructions, new TrackRequestComparer());
+            Console.Out.WriteLine("Look Stats");
+            project2.performLookSearch(instructions);
         }
+
+        private void performLookSearch( IList<Instruction> instructions ){
+             IList<Instruction> leftInstructions = new List<Instruction>();
+             IList<Instruction> rightInstructions = new List<Instruction>(); 
+             for(int i=0; i<instructions.Count; i++){
+                 if (instructions[i].TrackRequest>instructions[0].TrackRequest){
+                     rightInstructions.Add(instructions[i]);
+                 }else{
+                     leftInstructions.Add(instructions[i]);
+                 }
+             }
+
+             //mergelists
+             rightInstructions.Concat(leftInstructions).ToList<Instruction>();
+             instructions = new List<Instruction>();
+             instructions = rightInstructions;
+
+             IList<Double> accessTimes = new List<Double>();
+
+             Disk disk = new Disk();
+
+             for (int i=0;i<instructions.Count; i++){
+                Instruction currentInstruction = instructions[i];
+                
+                //check for outofbounds
+                if (i <=0){
+                    disk.calculateSeekTime(new Instruction(), currentInstruction);
+                }else{
+                    disk.calculateSeekTime(instructions[i-1],currentInstruction);
+                }
+                //Console.Out.WriteLine(instructions[i]); 
+                accessTimes.Add(disk.AccessTime); 
+             }
+             Console.Out.WriteLine(disk.getStats());
+
+             double average = disk.AverageAccessTime;
+             double sum = accessTimes.Sum(d => Math.Pow(d - average, 2));
+             Console.Out.WriteLine("Access Time Standard Deviation: " + Math.Sqrt((sum) / accessTimes.Count()));
+             Console.Out.WriteLine("Access Time Variance: " + sum / (accessTimes.Count()-1));
+         }
 
         private void performSearch( IList<Instruction> instructions, IComparer<Instruction> comparer ){
              List<Instruction> sortedListInstructions = instructions.ToList<Instruction>();

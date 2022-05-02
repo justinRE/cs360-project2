@@ -63,7 +63,7 @@ namespace cs360{
 
         public String getStats(){
             return "Total Access time: " + this.TotalAccessTime +
-                   "\nAverage Access time for FCFS: " + AverageAccessTime + " ms";
+                   "\nAverage Access time: " + AverageAccessTime + " ms";
         }
     }
 }
