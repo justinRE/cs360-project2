@@ -9,16 +9,16 @@ namespace cs360
 
             //this is where I need to handle other comparators for different sort order
             IList<Instruction> instructions = project2.loadData();
-            project2.performFCFS(instructions);
-            project2.performSSTF(instructions);
-
-           
-            
+            // project2.performFCFS(instructions);
+            //project2.performSSTF(instructions);
+            Console.Out.WriteLine("FCFS Stats");
+            project2.performSearch(instructions, new ArrivalTimeComparer());
+            Console.Out.WriteLine("SSTF Stats");
+            project2.performSearch(instructions, new TrackRequestComparer());
         }
 
-         private void performSSTF( IList<Instruction> instructions){
-             List<Instruction> sortedListInstructions = instructions.OrderBy(i=>i.SectorRequest).ToList();
-             IComparer<Instruction> comparer = new TrackRequestComparer();
+         private void performSearch( IList<Instruction> instructions, IComparer<Instruction> comparer ){
+             List<Instruction> sortedListInstructions = instructions.ToList<Instruction>();
              sortedListInstructions.Sort(comparer);
              instructions = new List<Instruction>();
              instructions = sortedListInstructions;
@@ -37,6 +37,37 @@ namespace cs360
                     disk.calculateSeekTime(instructions[i-1],currentInstruction);
                 }
                 //Console.Out.WriteLine(instructions[i]); 
+                accessTimes.Add(disk.AccessTime); 
+             }
+             Console.Out.WriteLine(disk.getStats());
+
+             double average = disk.AverageAccessTime;
+             double sum = accessTimes.Sum(d => Math.Pow(d - average, 2));
+             Console.Out.WriteLine("Access Time Standard Deviation: " + Math.Sqrt((sum) / accessTimes.Count()));
+             Console.Out.WriteLine("Access Time Variance: " + sum / (accessTimes.Count()-1));
+         }
+
+         private void performSSTF( IList<Instruction> instructions){
+             List<Instruction> sortedListInstructions = instructions.ToList<Instruction>();
+             IComparer<Instruction> comparer = new TrackRequestComparer();
+             sortedListInstructions.Sort(comparer);
+             instructions = new List<Instruction>();
+             instructions = sortedListInstructions;
+
+             IList<Double> accessTimes = new List<Double>();
+
+             Disk disk = new Disk();
+
+             for (int i=0;i<instructions.Count; i++){
+                Instruction currentInstruction = instructions[i];
+                
+                //check for outofbounds
+                if (i <=0){
+                    disk.calculateSeekTime(new Instruction(), currentInstruction);
+                }else{
+                    disk.calculateSeekTime(instructions[i-1],currentInstruction);
+                }
+                Console.Out.WriteLine(instructions[i]); 
                 accessTimes.Add(disk.AccessTime); 
              }
              Console.Out.WriteLine("SSTF Stats");
